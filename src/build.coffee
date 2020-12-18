@@ -7,6 +7,7 @@ pug = require 'pug'
 { ensureDirExists } = require './util'
 
 CWD = process.cwd()
+SRC = "#{CWD}/src"
 DIST = "#{CWD}/dist"
 
 exports.build = ->
@@ -15,7 +16,7 @@ exports.build = ->
   buildPages()
 
 buildPages = ->
-  dir = "#{CWD}/src/pages"
+  dir = "#{SRC}/pages"
   unless existsSync dir
     console.log "#{dir} does not exist."
     process.exit 1
