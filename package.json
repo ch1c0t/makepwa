@@ -1,0 +1,17 @@
+{
+  "name": "makepwa",
+  "description": "A tool for making PWAs",
+  "version": "0.0.0",
+  "bin": "./bin/makepwa",
+  "scripts": {
+    "dev": "coffee --watch --compile --output lib src",
+    "test": "coffee ./test/all.coffee"
+  },
+  "dependencies": {
+    "chokidar": "^3.4.3",
+    "coffeescript": "^2.5.1",
+    "glob": "^7.1.6",
+    "pug": "^3.0.0",
+    "yaml": "^1.10.0"
+  }
+}
