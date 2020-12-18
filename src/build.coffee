@@ -1,10 +1,11 @@
-{ existsSync, readFileSync, writeFileSync } = require 'fs'
+{ readFileSync, writeFileSync } = require 'fs'
 { basename } = require 'path'
 
 glob = require 'glob'
 pug = require 'pug'
+sass = require 'sass'
 
-{ ensureDirExists } = require './util'
+{ failIfDirNotExists, ensureDirExists } = require './util'
 
 CWD = process.cwd()
 SRC = "#{CWD}/src"
@@ -14,12 +15,11 @@ exports.build = ->
   ensureDirExists DIST
 
   buildPages()
+  buildStyles()
 
 buildPages = ->
   dir = "#{SRC}/pages"
-  unless existsSync dir
-    console.log "#{dir} does not exist."
-    process.exit 1
+  failIfDirNotExists dir
 
   sources = glob.sync "#{dir}/*.pug"
   names = sources.map (file) -> basename file, '.pug'
@@ -27,3 +27,12 @@ buildPages = ->
   for source, i in sources
     fn = pug.compile readFileSync source, 'utf-8'
     writeFileSync "#{DIST}/#{names[i]}.html", fn()
+
+buildStyles = ->
+  sourceDir = "#{SRC}/styles"
+  failIfDirNotExists sourceDir
+  result = sass.renderSync file: "#{sourceDir}/main.sass"
+
+  targetDir = "#{DIST}/styles"
+  ensureDirExists targetDir
+  writeFileSync "#{targetDir}/main.css", result.css.toString()
