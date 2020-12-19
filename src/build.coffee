@@ -4,6 +4,7 @@
 glob = require 'glob'
 pug = require 'pug'
 sass = require 'sass'
+webpack = require 'webpack'
 
 { failIfDirNotExists, ensureDirExists } = require './util'
 
@@ -16,6 +17,7 @@ exports.build = ->
 
   buildPages()
   buildStyles()
+  buildScripts()
 
 buildPages = ->
   dir = "#{SRC}/pages"
@@ -36,3 +38,38 @@ buildStyles = ->
   targetDir = "#{DIST}/styles"
   ensureDirExists targetDir
   writeFileSync "#{targetDir}/main.css", result.css.toString()
+
+buildScripts = ->
+  sourceDir = "#{SRC}/scripts"
+  failIfDirNotExists sourceDir
+
+  targetDir = "#{DIST}/scripts"
+  ensureDirExists targetDir
+
+  load_coffee =
+    test: /\.coffee$/
+    use: (require 'coffee-loader')
+  conf =
+    entry: "#{sourceDir}/main.coffee"
+    output:
+      path: targetDir
+      filename: 'main.js'
+    module:
+      rules: [
+        load_coffee
+      ]
+  
+  webpack conf, (error, stats) ->
+    if error
+      console.error (error.stack or error)
+      if error.details
+        console.error error.details
+      return
+
+    info = stats.toJson()
+
+    if stats.hasErrors()
+      console.error info.errors
+
+    if stats.hasWarnings()
+      console.warn info.warnings

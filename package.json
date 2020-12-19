@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "chokidar": "^3.4.3",
+    "coffee-loader": "^1.0.1",
     "coffeescript": "^2.5.1",
     "glob": "^7.1.6",
     "pug": "^3.0.0",
     "sass": "^1.30.0",
+    "webpack": "^5.11.0",
     "yaml": "^1.10.0"
   }
 }
