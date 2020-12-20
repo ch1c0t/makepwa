@@ -50,6 +50,7 @@ buildScripts = ->
     test: /\.coffee$/
     use: 'coffee-loader'
   conf =
+    mode: 'production'
     entry: "#{sourceDir}/main.coffee"
     output:
       path: targetDir
