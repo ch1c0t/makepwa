@@ -48,7 +48,7 @@ buildScripts = ->
 
   load_coffee =
     test: /\.coffee$/
-    use: (require 'coffee-loader')
+    use: 'coffee-loader'
   conf =
     entry: "#{sourceDir}/main.coffee"
     output:

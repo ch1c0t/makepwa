@@ -1,5 +1,6 @@
 { build } = require './build'
 { watch } = require './watch'
+{ create } = require './create'
 
 exports.run = ->
   [_node, _agn, command] = process.argv
@@ -9,6 +10,9 @@ exports.run = ->
       build()
     when 'watch'
       watch()
+    when 'new'
+      name = process.argv[3]
+      create name
     else
       printHelp()
 
