@@ -18,6 +18,7 @@ exports.build = ->
   buildPages()
   buildStyles()
   buildScripts()
+  buildWorkers()
 
 buildPages = ->
   dir = "#{SRC}/pages"
@@ -38,6 +39,21 @@ buildStyles = ->
   targetDir = "#{DIST}/styles"
   ensureDirExists targetDir
   writeFileSync "#{targetDir}/main.css", result.css.toString()
+
+handleWebpackErrors = (error, stats) ->
+  if error
+    console.error (error.stack or error)
+    if error.details
+      console.error error.details
+    return
+
+  info = stats.toJson()
+
+  if stats.hasErrors()
+    console.error info.errors
+
+  if stats.hasWarnings()
+    console.warn info.warnings
 
 buildScripts = ->
   sourceDir = "#{SRC}/scripts"
@@ -60,17 +76,24 @@ buildScripts = ->
         load_coffee
       ]
   
-  webpack conf, (error, stats) ->
-    if error
-      console.error (error.stack or error)
-      if error.details
-        console.error error.details
-      return
+  webpack conf, handleWebpackErrors
 
-    info = stats.toJson()
+buildWorkers = ->
+  sourceDir = "#{SRC}/workers"
+  failIfDirNotExists sourceDir
 
-    if stats.hasErrors()
-      console.error info.errors
-
-    if stats.hasWarnings()
-      console.warn info.warnings
+  load_coffee =
+    test: /\.coffee$/
+    use: 'coffee-loader'
+  conf =
+    mode: 'production'
+    entry: "#{sourceDir}/sw.coffee"
+    output:
+      path: DIST
+      filename: 'sw.js'
+    module:
+      rules: [
+        load_coffee
+      ]
+  
+  webpack conf, handleWebpackErrors

@@ -37,6 +37,7 @@ createSrc = ->
   createPages src
   createStyles src
   createScripts src
+  createWorkers src
 
 createPages = (src) ->
   dir = "#{src}/pages"
@@ -75,8 +76,30 @@ createScripts = (src) ->
   dir = "#{src}/scripts"
   fs.mkdirSync dir
 
-  source = """
+  fs.writeFileSync "#{dir}/main.coffee", """
+    require './register_service_worker.coffee'
+
     console.log 'from main'
   """
 
-  fs.writeFileSync "#{dir}/main.coffee", source
+  fs.writeFileSync "#{dir}/register_service_worker.coffee", """
+    if 'serviceWorker' in navigator
+      navigator.serviceWorker.register('/sw.js')
+        .then (registration) ->
+          console.log 'Service worker registration succeeded:', registration
+        .catch (error) ->
+          console.log 'Service worker registration failed:', error
+    else
+      console.log 'Service workers are not supported.'
+  """
+
+createWorkers = (src) ->
+  dir = "#{src}/workers"
+  fs.mkdirSync dir
+
+  fs.writeFileSync "#{dir}/sw.coffee", """
+    self.onfetch = (event) ->
+      console.log "Logging an HTTP request from a service worker:"
+      console.log event.request
+      event.respondWith fetch event.request
+  """
