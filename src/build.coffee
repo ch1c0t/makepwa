@@ -1,10 +1,11 @@
-{ readFileSync, writeFileSync } = require 'fs'
+{ readFileSync, writeFileSync, copyFile } = require 'fs'
 { basename } = require 'path'
 
 glob = require 'glob'
 pug = require 'pug'
 sass = require 'sass'
 webpack = require 'webpack'
+YAML = require 'yaml'
 
 { failIfDirNotExists, ensureDirExists } = require './util'
 
@@ -19,6 +20,7 @@ exports.build = ->
   buildStyles()
   buildScripts()
   buildWorkers()
+  buildManifest()
 
 buildPages = ->
   dir = "#{SRC}/pages"
@@ -97,3 +99,13 @@ buildWorkers = ->
       ]
   
   webpack conf, handleWebpackErrors
+
+buildManifest = ->
+  ensureDirExists "#{DIST}/icons"
+  copyFile "#{SRC}/icons/icon.192x192.png", "#{DIST}/icons/icon.192x192.png", (error) ->
+    throw error if error
+
+  manifest = YAML.parse readFileSync "#{SRC}/manifest.yml", 'utf-8'
+  json = JSON.stringify manifest, null, 2
+
+  writeFileSync "#{DIST}/manifest.webmanifest", json

@@ -1,6 +1,8 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
+YAML = require 'yaml'
+
 CWD = process.cwd()
 DIR = "/tmp/makepwa/path"
 
@@ -38,6 +40,8 @@ createSrc = ->
   createStyles src
   createScripts src
   createWorkers src
+  createIcons src
+  createManifest src
 
 createPages = (src) ->
   dir = "#{src}/pages"
@@ -53,6 +57,7 @@ createPages = (src) ->
         meta(http-equiv="x-ua-compatible" content="ie=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
 
+        link(rel="manifest" href="/manifest.webmanifest")
         link(rel="stylesheet" href="/styles/main.sass")
         script(src="/scripts/main.js")
       body
@@ -103,3 +108,29 @@ createWorkers = (src) ->
       console.log event.request
       event.respondWith fetch event.request
   """
+
+createIcons = (src) ->
+  dir = "#{src}/icons"
+  fs.mkdirSync dir
+  
+  fs.copyFile "#{__dirname}/create/icon.192x192.png", "#{src}/icons/icon.192x192.png", (error) ->
+    throw error if error
+
+createManifest = (src) ->
+  icon192 =
+    src: 'icon.192x192.png'
+    sizes: '192x192'
+    type: 'image/png'
+
+  spec =
+    name: 'makepwa0'
+    short_name: 'makepwa0'
+    description: 'Some description'
+    start_url: '/index.html'
+    display: 'fullscreen'
+    background_color: 'black'
+    icons: [
+      icon192
+    ]
+
+  fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
