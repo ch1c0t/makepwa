@@ -58,7 +58,7 @@ createPages = (src) ->
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
 
         link(rel="manifest" href="/manifest.webmanifest")
-        link(rel="stylesheet" href="/styles/main.sass")
+        link(rel="stylesheet" href="/styles/main.css")
         script(src="/scripts/main.js")
       body
         #app
@@ -88,7 +88,7 @@ createScripts = (src) ->
   """
 
   fs.writeFileSync "#{dir}/register_service_worker.coffee", """
-    if 'serviceWorker' in navigator
+    unless 'serviceWorker' in navigator
       navigator.serviceWorker.register('/sw.js')
         .then (registration) ->
           console.log 'Service worker registration succeeded:', registration
@@ -103,6 +103,14 @@ createWorkers = (src) ->
   fs.mkdirSync dir
 
   fs.writeFileSync "#{dir}/sw.coffee", """
+    self.onactivate = (event) ->
+      console.log 'from onactivate'
+      event.waitUntil Promise.resolve()
+
+    self.oninstall = (event) ->
+      console.log 'from oninstall'
+      event.waitUntil Promise.resolve()
+
     self.onfetch = (event) ->
       console.log "Logging an HTTP request from a service worker:"
       console.log event.request
@@ -118,7 +126,7 @@ createIcons = (src) ->
 
 createManifest = (src) ->
   icon192 =
-    src: 'icon.192x192.png'
+    src: '/icons/icon.192x192.png'
     sizes: '192x192'
     type: 'image/png'
 
