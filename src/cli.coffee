@@ -1,3 +1,7 @@
+global.CWD = process.cwd()
+global.SRC = "#{CWD}/src"
+global.DIST = "#{CWD}/dist"
+
 { build } = require './build'
 { watch } = require './watch'
 { create } = require './create'

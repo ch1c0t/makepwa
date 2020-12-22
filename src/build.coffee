@@ -9,11 +9,7 @@ YAML = require 'yaml'
 
 { failIfDirNotExists, ensureDirExists } = require './util'
 
-CWD = process.cwd()
-SRC = "#{CWD}/src"
-DIST = "#{CWD}/dist"
-
-exports.build = ->
+build = ->
   ensureDirExists DIST
 
   buildPages()
@@ -109,3 +105,12 @@ buildManifest = ->
   json = JSON.stringify manifest, null, 2
 
   writeFileSync "#{DIST}/manifest.webmanifest", json
+
+module.exports = {
+  build
+  buildPages
+  buildStyles
+  buildScripts
+  buildWorkers
+  buildManifest
+}
