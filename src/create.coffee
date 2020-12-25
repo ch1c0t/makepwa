@@ -18,9 +18,11 @@ exports.create = (name) ->
   spec =
     name: name
     version: '0.0.0'
+    scripts:
+      start: 'makepwa watch'
+      build: 'makepwa build'
     devDependencies:
-      coffeescript: "^2.5.1"
-      'coffee-loader': "^1.0.1"
+      makepwa: '0.0.1'
 
   createPackageFile spec
   createSrc()
