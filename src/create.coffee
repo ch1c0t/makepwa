@@ -76,7 +76,7 @@ createStyles = (src) ->
 
   source = """
     body
-      background-color: black
+      background-color: white
   """
 
   fs.writeFileSync "#{dir}/main.sass", source
