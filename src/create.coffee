@@ -13,6 +13,7 @@ exports.create = (name) ->
     console.error "#{DIR} already exists."
     process.exit 1
   else
+    console.log "Creating a new project inside of #{DIR}"
     fs.mkdirSync DIR
 
   spec =
@@ -27,6 +28,7 @@ exports.create = (name) ->
   createPackageFile spec
   createSrc()
 
+  console.log "Running 'npm install'"
   exec 'npm install',
     cwd: DIR
 
