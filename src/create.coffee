@@ -23,7 +23,7 @@ exports.create = (name) ->
       start: 'makepwa watch'
       build: 'makepwa build'
     devDependencies:
-      makepwa: '0.0.1'
+      makepwa: '0.0.2'
 
   createPackageFile spec
   createSrc()
