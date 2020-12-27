@@ -1,4 +1,5 @@
 chokidar = require 'chokidar'
+BS = require 'browser-sync'
 
 { build, buildPages, buildStyles, buildScripts, buildWorkers, buildManifest } = require './build'
 
@@ -10,6 +11,13 @@ exports.watch = ->
   watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildScripts
   watching ['src/workers/**/*.coffee', 'src/scripts/**/*.js'], buildWorkers
   watching ['src/manifest.yml'], buildManifest
+
+  bs = BS.create()
+  bs.init
+    server: './dist'
+    files: './dist/**/*'
+    open: no
+    ui: no
 
 watching = (array, fn) ->
   watcher = chokidar.watch array,

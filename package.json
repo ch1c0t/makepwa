@@ -8,6 +8,7 @@
     "test": "coffee ./test/all.coffee"
   },
   "dependencies": {
+    "browser-sync": "^2.26.13",
     "chokidar": "^3.4.3",
     "coffee-loader": "^1.0.1",
     "coffeescript": "^2.5.1",
