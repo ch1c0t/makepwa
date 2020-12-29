@@ -7,7 +7,7 @@ sass = require 'sass'
 YAML = require 'yaml'
 
 { failIfDirNotExists, ensureDirExists } = require './util'
-{ buildDependencies, buildScripts, buildWorkers } = './build/js'
+{ buildDeps, buildScripts, buildWorkers } = require './build/js'
 
 build = ->
   ensureDirExists DIST
@@ -15,7 +15,7 @@ build = ->
   buildPages()
   buildStyles()
 
-  buildDependencies()
+  buildDeps()
   buildScripts()
   buildWorkers()
 
@@ -55,7 +55,7 @@ module.exports = {
   build
   buildPages
   buildStyles
-  buildDependencies
+  buildDeps
   buildScripts
   buildWorkers
   buildManifest

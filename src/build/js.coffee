@@ -1,11 +1,11 @@
 { readFileSync, writeFileSync, existsSync } = require 'fs'
-require 'path'
+path = require 'path'
 
 webpack = require 'webpack'
 YAML = require 'yaml'
 coffee = require 'coffeescript'
 
-{ ensureDirExists } = require '../util'
+{ failIfDirNotExists, ensureDirExists } = require '../util'
 
 handleWebpackErrors = (error, stats) ->
   if error
@@ -42,14 +42,14 @@ runWebpack = ({ entry, output }) ->
   
   webpack conf, handleWebpackErrors
 
-buildDependencies = ->
-  file = "#{SRC}/dependencies.yml"
+buildDeps = ->
+  file = "#{SRC}/deps.yml"
   if existsSync file
     spec = YAML.parse readFileSync file, 'utf-8'
     
     generateWebpackEntry = (spec) ->
       ensureDirExists '/tmp/makepwa'
-      entry = '/tmp/makepwa/dependencies.js'
+      entry = '/tmp/makepwa/deps.js'
 
       console.log spec
       source = "console.log 'dependencies will be here'"
@@ -61,7 +61,7 @@ buildDependencies = ->
     ensureDirExists targetDir
 
     entry = generateWebpackEntry spec
-    runWebpack { entry, output: "#{targetDir}/dependencies.js" }
+    runWebpack { entry, output: "#{targetDir}/deps.js" }
 
 buildScripts = ->
   sourceDir = "#{SRC}/scripts"
@@ -79,7 +79,7 @@ buildWorkers = ->
   runWebpack entry: "#{sourceDir}/sw.coffee", output: "#{DIST}/sw.js"
 
 module.exports = {
-  buildDependencies
+  buildDeps
   buildScripts
   buildWorkers
 }
