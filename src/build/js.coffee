@@ -3,6 +3,7 @@ require 'path'
 
 webpack = require 'webpack'
 YAML = require 'yaml'
+coffee = require 'coffeescript'
 
 { ensureDirExists } = require '../util'
 
@@ -47,6 +48,20 @@ buildDependencies = ->
     spec = YAML.parse readFileSync file, 'utf-8'
     
     generateWebpackEntry = (spec) ->
+      ensureDirExists '/tmp/makepwa'
+      entry = '/tmp/makepwa/dependencies.js'
+
+      console.log spec
+      source = "console.log 'dependencies will be here'"
+
+      writeFileSync entry, (coffee.compile source)
+      entry
+
+    targetDir = "#{DIST}/scripts"
+    ensureDirExists targetDir
+
+    entry = generateWebpackEntry spec
+    runWebpack { entry, output: "#{targetDir}/dependencies.js" }
 
 buildScripts = ->
   sourceDir = "#{SRC}/scripts"
