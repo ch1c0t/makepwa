@@ -1,4 +1,5 @@
-{ readFileSync, writeFileSync } = require 'fs'
+{ readFileSync, writeFileSync, existsSync } = require 'fs'
+require 'path'
 
 webpack = require 'webpack'
 YAML = require 'yaml'
@@ -20,6 +21,33 @@ handleWebpackErrors = (error, stats) ->
   if stats.hasWarnings()
     console.warn info.warnings
 
+runWebpack = ({ entry, output }) ->
+  dir = path.dirname output
+  name = path.basename output
+
+  load_coffee =
+    test: /\.coffee$/
+    use: 'coffee-loader'
+  conf =
+    mode: 'production'
+    entry: entry
+    output:
+      path: dir
+      filename: name
+    module:
+      rules: [
+        load_coffee
+      ]
+  
+  webpack conf, handleWebpackErrors
+
+buildDependencies = ->
+  file = "#{SRC}/dependencies.yml"
+  if existsSync file
+    spec = YAML.parse readFileSync file, 'utf-8'
+    
+    generateWebpackEntry = (spec) ->
+
 buildScripts = ->
   sourceDir = "#{SRC}/scripts"
   failIfDirNotExists sourceDir
@@ -27,43 +55,16 @@ buildScripts = ->
   targetDir = "#{DIST}/scripts"
   ensureDirExists targetDir
 
-  load_coffee =
-    test: /\.coffee$/
-    use: 'coffee-loader'
-  conf =
-    mode: 'production'
-    entry: "#{sourceDir}/main.coffee"
-    output:
-      path: targetDir
-      filename: 'main.js'
-    module:
-      rules: [
-        load_coffee
-      ]
-  
-  webpack conf, handleWebpackErrors
+  runWebpack entry: "#{sourceDir}/main.coffee", output: "#{targetDir}/main.js"
 
 buildWorkers = ->
   sourceDir = "#{SRC}/workers"
   failIfDirNotExists sourceDir
 
-  load_coffee =
-    test: /\.coffee$/
-    use: 'coffee-loader'
-  conf =
-    mode: 'production'
-    entry: "#{sourceDir}/sw.coffee"
-    output:
-      path: DIST
-      filename: 'sw.js'
-    module:
-      rules: [
-        load_coffee
-      ]
-  
-  webpack conf, handleWebpackErrors
+  runWebpack entry: "#{sourceDir}/sw.coffee", output: "#{DIST}/sw.js"
 
 module.exports = {
+  buildDependencies
   buildScripts
   buildWorkers
 }
