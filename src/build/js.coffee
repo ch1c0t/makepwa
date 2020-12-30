@@ -51,8 +51,57 @@ buildDeps = ->
       ensureDirExists '/tmp/makepwa'
       entry = '/tmp/makepwa/deps.js'
 
-      console.log spec
-      source = "console.log 'dependencies will be here'"
+      makeVariable = (string) ->
+        string
+          .replace '-', ''
+          .replace '@', ''
+          .replace '/', ''
+
+      imports = Object
+        .keys spec['import']
+        .map (dep) ->
+          variable = makeVariable dep
+          """
+          import #{variable} from '#{CWD}/node_modules/#{dep}'
+          FROM['#{dep}'] = #{variable}
+          """
+        .join '\n'
+
+      reacts = Object
+        .keys spec['react']
+        .map (dep) ->
+          variable = makeVariable dep
+          components = Object
+            .keys spec['react'][dep]
+            .map (string) ->
+              original: string, raw: "Raw_#{string}_from_#{variable}"
+
+          rawImport = components
+            .map ({ original, raw }) ->
+              "#{original} as #{raw}"
+            .join ', '
+
+          toFROM = components
+            .map ({ original, raw }) ->
+              "FROM['#{dep}']['#{original}'] = wrap #{raw}"
+            .join '\n'
+
+          """
+          FROM['#{dep}'] = {}
+          import { #{rawImport} } from '#{CWD}/node_modules/#{dep}'
+
+          #{toFROM}
+          """
+        .join '\n'
+
+      source = """
+        window.FROM = {}
+
+        #{imports}
+
+        import { wrap } from '#{CWD}/node_modules/wrapjsx'
+        #{reacts}
+      """
 
       writeFileSync entry, (coffee.compile source)
       entry
