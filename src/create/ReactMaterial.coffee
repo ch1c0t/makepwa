@@ -94,6 +94,8 @@ createScripts = (src) ->
 
     { fragment } = FROM 'wrapjsx'
 
+    { Button } = FROM '@material-ui/core'
+
     App = fragment [
       Button color: 'primary', 'First button'
       Button color: 'primary', 'Second button'
