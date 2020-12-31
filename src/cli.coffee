@@ -1,3 +1,4 @@
+global.VERSION = '0.0.2'
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 global.DIST = "#{CWD}/dist"
@@ -16,7 +17,8 @@ exports.run = ->
       watch()
     when 'new'
       name = process.argv[3]
-      create name
+      template = process.argv[4]
+      create { name, template }
     when 'help'
       printHelp()
     else
@@ -27,8 +29,8 @@ printHelp = ->
   console.log """
     A tool for making PWAs.
 
-      new project_name    Create the directory named "project_name" and a new project inside of it.
-      build               Build the project inside of the dist directory.
-      watch               Watch for changes and rebuild the project continuously.
-      help                Show this message.
+      new NAME [TEMPLATE]    Create the directory named NAME and a new project inside of it.
+      build                  Build the project inside of the dist directory.
+      watch                  Watch for changes and rebuild the project continuously.
+      help                   Show this message.
   """

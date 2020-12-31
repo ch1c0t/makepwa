@@ -1,145 +1,23 @@
 fs = require 'fs'
-{ exec } = require 'child_process'
 
-YAML = require 'yaml'
+TEMPLATES = [
+  'bare'
+]
 
-CWD = process.cwd()
-DIR = "/tmp/makepwa/path"
+exports.create = ({ name, template }) ->
+  template ||= 'bare'
+  if template in TEMPLATES
+    { createProject } = require "./create/#{template}"
+  else 
+    console.error "No template named '#{template}'. Available templates: #{TEMPLATES}"
+    process.exit 1
 
-exports.create = (name) ->
-  DIR = "#{CWD}/#{name}"
-
-  if fs.existsSync DIR
-    console.error "#{DIR} already exists."
+  dir = "#{CWD}/#{name}"
+  if fs.existsSync dir
+    console.error "#{dir} already exists."
     process.exit 1
   else
-    console.log "Creating a new project inside of #{DIR}"
-    fs.mkdirSync DIR
+    console.log "Creating a new project inside of #{dir}"
+    fs.mkdirSync dir
 
-  spec =
-    name: name
-    version: '0.0.0'
-    scripts:
-      start: 'makepwa watch'
-      build: 'makepwa build'
-    devDependencies:
-      makepwa: '0.0.2'
-
-  createPackageFile spec
-  createSrc()
-
-  console.log "Running 'npm install'"
-  exec 'npm install',
-    cwd: DIR
-
-createPackageFile = (spec) ->
-  source = JSON.stringify spec, null, 2
-  fs.writeFileSync "#{DIR}/package.json", source
-
-createSrc = ->
-  src = "#{DIR}/src"
-  fs.mkdirSync src
-
-  createPages src
-  createStyles src
-  createScripts src
-  createWorkers src
-  createIcons src
-  createManifest src
-
-createPages = (src) ->
-  dir = "#{src}/pages"
-  fs.mkdirSync dir
-
-  source = """
-    doctype html
-    html
-      head
-        title Title
-
-        meta(charset="utf-8")
-        meta(http-equiv="x-ua-compatible" content="ie=edge")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
-
-        link(rel="manifest" href="/manifest.webmanifest")
-        link(rel="stylesheet" href="/styles/main.css")
-        script(src="/scripts/main.js")
-      body
-        #app
-  """
-
-  fs.writeFileSync "#{dir}/index.pug", source
-
-createStyles = (src) ->
-  dir = "#{src}/styles"
-  fs.mkdirSync dir
-
-  source = """
-    body
-      background-color: white
-  """
-
-  fs.writeFileSync "#{dir}/main.sass", source
-
-createScripts = (src) ->
-  dir = "#{src}/scripts"
-  fs.mkdirSync dir
-
-  fs.writeFileSync "#{dir}/main.coffee", """
-    require './register_service_worker.coffee'
-
-    console.log 'from main'
-  """
-
-  fs.writeFileSync "#{dir}/register_service_worker.coffee", """
-    navigator.serviceWorker.register('/sw.js')
-      .then (registration) ->
-        console.log 'Service worker registration succeeded:', registration
-      .catch (error) ->
-        console.log 'Service worker registration failed:', error
-  """
-
-createWorkers = (src) ->
-  dir = "#{src}/workers"
-  fs.mkdirSync dir
-
-  fs.writeFileSync "#{dir}/sw.coffee", """
-    self.onactivate = (event) ->
-      console.log 'from onactivate'
-      event.waitUntil Promise.resolve()
-
-    self.oninstall = (event) ->
-      console.log 'from oninstall'
-      event.waitUntil Promise.resolve()
-
-    self.onfetch = (event) ->
-      console.log "Logging an HTTP request from a service worker:"
-      console.log event.request
-      event.respondWith fetch event.request
-  """
-
-createIcons = (src) ->
-  dir = "#{src}/icons"
-  fs.mkdirSync dir
-  
-  fs.copyFile "#{__dirname}/create/icon.192x192.png", "#{src}/icons/icon.192x192.png", (error) ->
-    throw error if error
-
-createManifest = (src) ->
-  icon192 =
-    src: '/icons/icon.192x192.png'
-    sizes: '192x192'
-    type: 'image/png'
-
-  spec =
-    name: 'makepwa0'
-    short_name: 'makepwa0'
-    description: 'Some description'
-    start_url: '/index.html'
-    display: 'fullscreen'
-    background_color: 'black'
-    icons: [
-      icon192
-    ]
-
-  fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
+  createProject { name, dir }
