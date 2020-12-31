@@ -7,13 +7,11 @@ npm install makepwa -g
 and then use
 
 ```
-makepwa new pwa0
+makepwa new NAME [TEMPLATE]
 ```
 
-to create the directory named "pwa0" and a new project inside of it.
+to create a new PWA project inside of the directory named NAME. For example, `makepwa new pwa0`.
 
-After entering the directory with `cd pwa0`, you can use `makepwa build` and `makepwa watch`.
+Optionally, you can also pass a TEMPLATE. For example, `makepwa new pwa0 ReactMaterial` will create a project with React and Material-UI. If you don't pass a TEMPLATE, it will create a bare project without additional dependencies.
 
-`makepwa build` creates the `dist` directory with a compiled bundle.
-
-`makepwa watch` does `makepwa build` first, and then watch for changes and rebuild the project continuously.
+After entering the directory with `cd pwa0`, you can use `npm start` to start a development session.
