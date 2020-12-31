@@ -63,7 +63,7 @@ buildDeps = ->
           variable = makeVariable dep
           """
           import #{variable} from '#{CWD}/node_modules/#{dep}'
-          FROM['#{dep}'] = #{variable}
+          _deps_['#{dep}'] = #{variable}
           """
         .join '\n'
 
@@ -83,11 +83,11 @@ buildDeps = ->
 
           toFROM = components
             .map ({ original, raw }) ->
-              "FROM['#{dep}']['#{original}'] = wrap #{raw}"
+              "_deps_['#{dep}']['#{original}'] = wrap #{raw}"
             .join '\n'
 
           """
-          FROM['#{dep}'] = {}
+          _deps_['#{dep}'] = {}
           import { #{rawImport} } from '#{CWD}/node_modules/#{dep}'
 
           #{toFROM}
@@ -95,7 +95,9 @@ buildDeps = ->
         .join '\n'
 
       source = """
-        window.FROM = {}
+        _deps_ = {}
+        window.FROM = (string) ->
+          _deps_[string]
 
         #{imports}
 
