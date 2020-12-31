@@ -1,7 +1,7 @@
 {
   "name": "makepwa",
   "description": "A tool for making PWAs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": "./bin/makepwa",
   "scripts": {
     "dev": "coffee --watch --compile --output lib src",

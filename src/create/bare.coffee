@@ -80,11 +80,14 @@ createScripts = (src) ->
   """
 
   fs.writeFileSync "#{dir}/register_service_worker.coffee", """
-    navigator.serviceWorker.register('/sw.js')
-      .then (registration) ->
-        console.log 'Service worker registration succeeded:', registration
-      .catch (error) ->
-        console.log 'Service worker registration failed:', error
+    if 'serviceWorker' in navigator
+      navigator.serviceWorker.register('/sw.js')
+        .then (registration) ->
+          console.log 'Service worker registration succeeded:', registration
+        .catch (error) ->
+          console.log 'Service worker registration failed:', error
+    else
+      console.log "No 'serviceWorker' in the navigator."
   """
 
 createWorkers = (src) ->
