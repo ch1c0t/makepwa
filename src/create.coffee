@@ -2,6 +2,7 @@ fs = require 'fs'
 
 TEMPLATES = [
   'bare'
+  'ReactMaterial'
 ]
 
 exports.create = ({ name, template }) ->
