@@ -19,6 +19,7 @@ exports.watch = ->
     files: './dist/**/*'
     open: no
     ui: no
+    notify: no
 
 watching = (array, fn) ->
   watcher = chokidar.watch array,
