@@ -3,6 +3,8 @@ fs = require 'fs'
 
 YAML = require 'yaml'
 
+{ createManifest } = require './common'
+
 exports.createProject = ({ name, dir }) ->
   spec =
     name: name
@@ -21,7 +23,7 @@ exports.createProject = ({ name, dir }) ->
       wrapjsx: "^0.0.3"
 
   createPackageFile { spec, dir }
-  createSrc dir
+  createSrc { name, dir }
 
   console.log "Running 'npm install'"
   exec 'npm install',
@@ -31,7 +33,7 @@ createPackageFile = ({ spec, dir }) ->
   source = JSON.stringify spec, null, 2
   fs.writeFileSync "#{dir}/package.json", source
 
-createSrc = (dir) ->
+createSrc = ({ name, dir }) ->
   src = "#{dir}/src"
   fs.mkdirSync src
 
@@ -40,7 +42,7 @@ createSrc = (dir) ->
   createScripts src
   createWorkers src
   createIcons src
-  createManifest src
+  createManifest { name, src }
   createDeps src
 
 createPages = (src) ->
@@ -140,25 +142,6 @@ createIcons = (src) ->
   
   fs.copyFile "#{__dirname}/icon.192x192.png", "#{src}/icons/icon.192x192.png", (error) ->
     throw error if error
-
-createManifest = (src) ->
-  icon192 =
-    src: '/icons/icon.192x192.png'
-    sizes: '192x192'
-    type: 'image/png'
-
-  spec =
-    name: 'makepwa0'
-    short_name: 'makepwa0'
-    description: 'Some description'
-    start_url: '/index.html'
-    display: 'fullscreen'
-    background_color: 'black'
-    icons: [
-      icon192
-    ]
-
-  fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
 
 createDeps = (src) ->
   spec = """
