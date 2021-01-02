@@ -1,4 +1,4 @@
-global.VERSION = '0.0.5'
+global.VERSION = '0.0.7'
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 global.DIST = "#{CWD}/dist"

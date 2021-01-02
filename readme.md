@@ -10,7 +10,7 @@ and then use
 makepwa new NAME [TEMPLATE]
 ```
 
-to create a new PWA project inside of the directory named NAME. For example, `makepwa new pwa0`.
+to create a directory named NAME and a new PWA project inside of it. For example, `makepwa new pwa0`.
 
 Optionally, you can also pass a TEMPLATE. For example, `makepwa new pwa0 ReactMaterial` will create a project with React and Material-UI. If you don't pass a TEMPLATE, it will create a bare project without additional dependencies.
 
