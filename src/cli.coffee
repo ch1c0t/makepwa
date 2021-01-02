@@ -1,4 +1,5 @@
-global.VERSION = '0.0.7'
+{ version } = require '../package.json'
+global.VERSION = version
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 global.DIST = "#{CWD}/dist"
