@@ -1,3 +1,6 @@
+fs = require 'fs'
+YAML = require 'yaml'
+
 exports.createManifest = ({ name, src }) ->
   icon192 =
     src: '/icons/icon.192x192.png'

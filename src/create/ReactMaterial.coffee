@@ -1,8 +1,6 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
-YAML = require 'yaml'
-
 { createManifest } = require './common'
 
 exports.createProject = ({ name, dir }) ->
