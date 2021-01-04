@@ -19,3 +19,22 @@ exports.createManifest = ({ name, src }) ->
     ]
 
   fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
+
+exports.createWorkers = (src) ->
+  dir = "#{src}/workers"
+  fs.mkdirSync dir
+
+  fs.writeFileSync "#{dir}/sw.coffee", """
+    self.oninstall = (event) ->
+      console.log 'from oninstall'
+      event.waitUntil Promise.resolve()
+
+    self.onactivate = (event) ->
+      console.log 'from onactivate'
+      event.waitUntil Promise.resolve()
+
+    self.onfetch = (event) ->
+      console.log "Logging an HTTP request from a service worker:"
+      console.log event.request
+      event.respondWith fetch event.request
+  """

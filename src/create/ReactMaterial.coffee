@@ -1,7 +1,7 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
-{ createManifest } = require './common'
+{ createManifest, createWorkers } = require './common'
 
 exports.createProject = ({ name, dir }) ->
   spec =
@@ -113,25 +113,6 @@ createScripts = (src) ->
           console.log 'Service worker registration failed:', error
     else
       console.log "No 'serviceWorker' in the navigator."
-  """
-
-createWorkers = (src) ->
-  dir = "#{src}/workers"
-  fs.mkdirSync dir
-
-  fs.writeFileSync "#{dir}/sw.coffee", """
-    self.onactivate = (event) ->
-      console.log 'from onactivate'
-      event.waitUntil Promise.resolve()
-
-    self.oninstall = (event) ->
-      console.log 'from oninstall'
-      event.waitUntil Promise.resolve()
-
-    self.onfetch = (event) ->
-      console.log "Logging an HTTP request from a service worker:"
-      console.log event.request
-      event.respondWith fetch event.request
   """
 
 createIcons = (src) ->
