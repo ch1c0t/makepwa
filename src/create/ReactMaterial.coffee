@@ -1,7 +1,7 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
-{ createManifest, createWorkers } = require './common'
+{ createManifest, createWorkers, createSWRegistration } = require './common'
 
 exports.createProject = ({ name, dir }) ->
   spec =
@@ -104,16 +104,7 @@ createScripts = (src) ->
     render App, (document.getElementById 'app')
   """
 
-  fs.writeFileSync "#{dir}/register_service_worker.coffee", """
-    if 'serviceWorker' in navigator
-      navigator.serviceWorker.register('/sw.js')
-        .then (registration) ->
-          console.log 'Service worker registration succeeded:', registration
-        .catch (error) ->
-          console.log 'Service worker registration failed:', error
-    else
-      console.log "No 'serviceWorker' in the navigator."
-  """
+  createSWRegistration dir
 
 createIcons = (src) ->
   dir = "#{src}/icons"

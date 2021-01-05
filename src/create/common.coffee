@@ -26,15 +26,31 @@ exports.createWorkers = (src) ->
 
   fs.writeFileSync "#{dir}/sw.coffee", """
     self.oninstall = (event) ->
-      console.log 'from oninstall'
+      console.log 'sw.js: from oninstall'
       event.waitUntil Promise.resolve()
 
     self.onactivate = (event) ->
-      console.log 'from onactivate'
+      console.log 'sw.js: from onactivate'
       event.waitUntil Promise.resolve()
 
     self.onfetch = (event) ->
-      console.log "Logging an HTTP request from a service worker:"
-      console.log event.request
+      console.log "sw.js: logging a fetch"
+      console.dir event.request
+      console.log event.request.url
+      console.log '\n'
+
       event.respondWith fetch event.request
+  """
+
+exports.createSWRegistration = (dir) ->
+  fs.writeFileSync "#{dir}/register_service_worker.coffee", """
+    if navigator.serviceWorker?.register
+      navigator.serviceWorker.register('/sw.js')
+        .then (registration) ->
+          console.log 'Service worker registration succeeded:', registration
+        .catch (error) ->
+          console.log 'Service worker registration failed:', error
+    else
+      console.log "No 'serviceWorker' in the navigator."
+      console.dir navigator
   """
