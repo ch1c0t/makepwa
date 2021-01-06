@@ -45,11 +45,12 @@ exports.createWorkers = (src) ->
 exports.createSWRegistration = (dir) ->
   fs.writeFileSync "#{dir}/register_service_worker.coffee", """
     if navigator.serviceWorker?.register
-      navigator.serviceWorker.register('/sw.js')
-        .then (registration) ->
-          console.log 'Service worker registration succeeded:', registration
-        .catch (error) ->
-          console.log 'Service worker registration failed:', error
+      window.addEventListener 'load', ->
+        navigator.serviceWorker.register('/sw.js')
+          .then (registration) ->
+            console.log 'Service worker registration succeeded:', registration
+          .catch (error) ->
+            console.log 'Service worker registration failed:', error
     else
       console.log "No 'serviceWorker' in the navigator."
       console.dir navigator
