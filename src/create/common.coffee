@@ -33,13 +33,18 @@ exports.createWorkers = (src) ->
       console.log 'sw.js: from onactivate'
       event.waitUntil Promise.resolve()
 
-    self.onfetch = (event) ->
-      console.log "sw.js: logging a fetch"
-      console.dir event.request
-      console.log event.request.url
+
+    logRequest = (request) ->
+      console.log 'sw.js: logging a request'
+      console.dir request
+      console.log request.url
       console.log '\n'
 
-      event.respondWith fetch event.request
+    self.onfetch = (event) ->
+      request = event.request
+      logRequest request
+
+      event.respondWith fetch request
   """
 
 exports.createSWRegistration = (dir) ->
