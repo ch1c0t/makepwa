@@ -25,13 +25,16 @@ exports.createWorkers = (src) ->
   fs.mkdirSync dir
 
   fs.writeFileSync "#{dir}/sw.coffee", """
-    self.oninstall = (event) ->
-      console.log 'sw.js: from oninstall'
+    precacheAssets = (event) ->
+      console.log 'sw.js: from precacheAssets(): not implemented yet'
       event.waitUntil Promise.resolve()
 
-    self.onactivate = (event) ->
-      console.log 'sw.js: from onactivate'
+    deleteOldCaches = (event) ->
+      console.log 'sw.js: from deleteOldCaches(): not implemented yet'
       event.waitUntil Promise.resolve()
+
+    self.oninstall = precacheAssets
+    self.onactivate = deleteOldCaches
 
 
     logRequest = (request) ->
