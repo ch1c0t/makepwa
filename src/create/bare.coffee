@@ -31,9 +31,18 @@ createSrc = ({ name, dir }) ->
   createPages src
   createStyles src
   createScripts src
-  createWorkers src
   createIcons src
   createManifest { name, src }
+
+  assets = [
+    '/'
+    '/index.html'
+    '/manifest.webmanifest'
+    '/styles/main.css'
+    '/scripts/main.js'
+    '/icons/icon.192x192.png'
+  ]
+  createWorkers { src, assets }
 
 createPages = (src) ->
   dir = "#{src}/pages"

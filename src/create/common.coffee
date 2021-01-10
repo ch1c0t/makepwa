@@ -20,11 +20,22 @@ exports.createManifest = ({ name, src }) ->
 
   fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
 
-exports.createWorkers = (src) ->
+prepareAssetsString = (assets) ->
+  lines = assets
+    .map (asset) ->
+      "  '#{asset}'"
+    .join '\n'
+  "[\n#{lines}\n]"
+exports.createWorkers = ({ src, assets }) ->
   dir = "#{src}/workers"
   fs.mkdirSync dir
 
   fs.writeFileSync "#{dir}/sw.coffee", """
+    VERSION = '0'
+    CACHE_NAME = "assets-" + VERSION
+    CACHE = caches.open CACHE_NAME
+    ASSETS = #{prepareAssetsString assets}
+
     precacheAssets = (event) ->
       console.log 'sw.js: from precacheAssets(): not implemented yet'
       event.waitUntil Promise.resolve()
