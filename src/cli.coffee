@@ -2,7 +2,6 @@
 global.VERSION = version
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
-global.DIST = "#{CWD}/dist"
 
 { build } = require './build'
 { watch } = require './watch'
@@ -11,10 +10,14 @@ global.DIST = "#{CWD}/dist"
 exports.run = ->
   [_node, _agn, command] = process.argv
 
+  global.COMMAND = command
+
   switch command
     when 'build'
+      global.DIST = "#{CWD}/dist"
       build()
     when 'watch'
+      global.DIST = "#{CWD}/dist.dev"
       watch()
     when 'new'
       name = process.argv[3]

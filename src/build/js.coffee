@@ -124,10 +124,21 @@ buildScripts = ->
   runWebpack entry: "#{sourceDir}/main.coffee", output: "#{targetDir}/main.js"
 
 buildWorkers = ->
+  customSW = "#{SRC}/workers/sw.coffee"
+  if existsSync "#{SRC}/workers/sw.coffee"
+    buildCustomSW()
+  else
+    if COMMAND is 'build'
+      buildDefaultSW()
+
+buildCustomSW = ->
   sourceDir = "#{SRC}/workers"
   failIfDirNotExists sourceDir
 
   runWebpack entry: "#{sourceDir}/sw.coffee", output: "#{DIST}/sw.js"
+
+buildDefaultSW = ->
+  console.log 'buildDefaultSW'
 
 module.exports = {
   buildDeps
