@@ -7,7 +7,9 @@ sass = require 'sass'
 YAML = require 'yaml'
 
 { failIfDirNotExists, ensureDirExists } = require './util'
-{ buildDeps, buildScripts, buildWorkers } = require './build/js'
+{ buildDeps } = require './build/js/deps'
+{ buildScripts } = require './build/js/scripts'
+{ buildWorkers } = require './build/js/workers'
 
 build = ->
   ensureDirExists DIST

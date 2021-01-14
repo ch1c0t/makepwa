@@ -15,8 +15,8 @@ exports.watch = ->
 
   bs = BS.create()
   bs.init
-    server: './dist'
-    files: './dist/**/*'
+    server: DIST
+    files: "#{DIST}/**/*"
     open: no
     ui: no
     notify: no

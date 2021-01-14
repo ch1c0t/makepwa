@@ -1,48 +1,13 @@
 { readFileSync, writeFileSync, existsSync } = require 'fs'
 path = require 'path'
 
-webpack = require 'webpack'
 YAML = require 'yaml'
 coffee = require 'coffeescript'
 
-{ failIfDirNotExists, ensureDirExists } = require '../util'
+{ ensureDirExists } = require '../../util'
+{ runWebpack } = require './common'
 
-handleWebpackErrors = (error, stats) ->
-  if error
-    console.error (error.stack or error)
-    if error.details
-      console.error error.details
-    return
-
-  info = stats.toJson()
-
-  if stats.hasErrors()
-    console.error info.errors
-
-  if stats.hasWarnings()
-    console.warn info.warnings
-
-runWebpack = ({ entry, output }) ->
-  dir = path.dirname output
-  name = path.basename output
-
-  load_coffee =
-    test: /\.coffee$/
-    use: 'coffee-loader'
-  conf =
-    mode: 'production'
-    entry: entry
-    output:
-      path: dir
-      filename: name
-    module:
-      rules: [
-        load_coffee
-      ]
-  
-  webpack conf, handleWebpackErrors
-
-buildDeps = ->
+exports.buildDeps = ->
   file = "#{SRC}/deps.yml"
   if existsSync file
     spec = YAML.parse readFileSync file, 'utf-8'
@@ -113,35 +78,3 @@ buildDeps = ->
 
     entry = generateWebpackEntry spec
     runWebpack { entry, output: "#{targetDir}/deps.js" }
-
-buildScripts = ->
-  sourceDir = "#{SRC}/scripts"
-  failIfDirNotExists sourceDir
-
-  targetDir = "#{DIST}/scripts"
-  ensureDirExists targetDir
-
-  runWebpack entry: "#{sourceDir}/main.coffee", output: "#{targetDir}/main.js"
-
-buildWorkers = ->
-  customSW = "#{SRC}/workers/sw.coffee"
-  if existsSync "#{SRC}/workers/sw.coffee"
-    buildCustomSW()
-  else
-    if COMMAND is 'build'
-      buildDefaultSW()
-
-buildCustomSW = ->
-  sourceDir = "#{SRC}/workers"
-  failIfDirNotExists sourceDir
-
-  runWebpack entry: "#{sourceDir}/sw.coffee", output: "#{DIST}/sw.js"
-
-buildDefaultSW = ->
-  console.log 'buildDefaultSW'
-
-module.exports = {
-  buildDeps
-  buildScripts
-  buildWorkers
-}
