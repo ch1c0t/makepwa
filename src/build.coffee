@@ -17,11 +17,11 @@ build = ->
   buildPages()
   buildStyles()
 
+  buildManifest()
+
   buildDeps()
   buildScripts()
   buildWorkers()
-
-  buildManifest()
 
 buildPages = ->
   dir = "#{SRC}/pages"
