@@ -3,6 +3,8 @@ global.VERSION = version
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 
+require './ext'
+
 { build } = require './build'
 { watch } = require './watch'
 { create } = require './create'

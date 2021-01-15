@@ -20,19 +20,21 @@ exports.runWebpack = ({ entry, output }) ->
         load_coffee
       ]
   
-  webpack conf, handleWebpackErrors
+  new Promise (resolve, reject) ->
+    webpack conf, (error, stats) ->
+      if error
+        console.error (error.stack or error)
+        if error.details
+          console.error error.details
+        reject()
 
-handleWebpackErrors = (error, stats) ->
-  if error
-    console.error (error.stack or error)
-    if error.details
-      console.error error.details
-    return
+      info = stats.toJson()
 
-  info = stats.toJson()
+      if stats.hasWarnings()
+        console.warn info.warnings
 
-  if stats.hasErrors()
-    console.error info.errors
-
-  if stats.hasWarnings()
-    console.warn info.warnings
+      if stats.hasErrors()
+        console.error info.errors
+        reject()
+      else
+        resolve()
