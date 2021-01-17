@@ -1,7 +1,7 @@
-{ failIfDirNotExists, ensureDirExists } = require '../../util'
-{ runWebpack } = require './common'
+{ failIfDirNotExists, ensureDirExists } = require '../../../util'
+{ runWebpack } = require '../common'
 
-exports.buildScripts = ->
+exports.buildMainScript = ->
   sourceDir = "#{SRC}/scripts"
   failIfDirNotExists sourceDir
 

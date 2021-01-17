@@ -1,7 +1,16 @@
 chokidar = require 'chokidar'
 BS = require 'browser-sync'
 
-{ build, buildPages, buildStyles, buildDeps, buildScripts, buildWorkers, buildManifest } = require './build'
+{
+  build
+  buildPages
+  buildStyles
+  buildDeps
+  buildMainScript
+  buildSWRegistration
+  buildWorkers
+  buildManifest
+} = require './build'
 
 exports.watch = ->
   build()
@@ -9,7 +18,8 @@ exports.watch = ->
   watching ['src/pages/*.pug'], buildPages
   watching ['src/styles/*.sass'], buildStyles
   watching ['src/deps.yml'], buildDeps
-  watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildScripts
+  watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildMainScript
+  watching ['src/scripts/register_sw.coffee'], buildSWRegistration
   watching ['src/workers/**/*.coffee', 'src/scripts/**/*.js'], buildWorkers
   watching ['src/manifest.yml'], buildManifest
 

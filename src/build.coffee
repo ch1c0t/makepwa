@@ -1,6 +1,7 @@
 { ensureDirExists } = require './util'
 { buildDeps } = require './build/js/deps'
-{ buildScripts } = require './build/js/scripts'
+{ buildMainScript } = require './build/js/scripts/main'
+{ buildSWRegistration } = require './build/js/scripts/register_sw'
 { buildWorkers } = require './build/js/workers'
 { buildPages } = require './build/pages'
 { buildStyles } = require './build/styles'
@@ -11,7 +12,8 @@ build = ->
 
   await Promise.all [
     buildDeps()
-    buildScripts()
+    buildMainScript()
+    buildSWRegistration()
     buildPages()
     buildStyles()
     buildManifest()
@@ -23,8 +25,9 @@ module.exports = {
   build
   buildPages
   buildStyles
+  buildMainScript
+  buildSWRegistration
   buildDeps
-  buildScripts
   buildWorkers
   buildManifest
 }
