@@ -1,7 +1,7 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
-{ createManifest, createWorkers, createSWRegistration } = require './common'
+{ createManifest } = require './common'
 
 exports.createProject = ({ name, dir }) ->
   spec =
@@ -34,16 +34,6 @@ createSrc = ({ name, dir }) ->
   createIcons src
   createManifest { name, src }
 
-  assets = [
-    '/'
-    '/index.html'
-    '/manifest.webmanifest'
-    '/styles/main.css'
-    '/scripts/main.js'
-    '/icons/icon.192x192.png'
-  ]
-  createWorkers { src, assets }
-
 createPages = (src) ->
   dir = "#{src}/pages"
   fs.mkdirSync dir
@@ -60,7 +50,6 @@ createPages = (src) ->
 
         link(rel="manifest" href="/manifest.webmanifest")
         link(rel="stylesheet" href="/styles/main.css")
-        script(src="/scripts/main.js")
       body
         #app
   """
@@ -83,12 +72,8 @@ createScripts = (src) ->
   fs.mkdirSync dir
 
   fs.writeFileSync "#{dir}/main.coffee", """
-    require './register_service_worker.coffee'
-
     console.log 'from main'
   """
-
-  createSWRegistration dir
 
 createIcons = (src) ->
   dir = "#{src}/icons"
