@@ -14,10 +14,11 @@ build = ->
     buildDeps()
     buildMainScript()
     buildSWRegistration()
-    buildPages()
     buildStyles()
     buildManifest()
   ]
+
+  await buildPages()
 
   buildWorkers()
 
