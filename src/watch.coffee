@@ -9,6 +9,7 @@ BS = require 'browser-sync'
   buildMainScript
   buildSWRegistration
   buildWorkers
+  buildIcons
   buildManifest
 } = require './build'
 
@@ -21,6 +22,7 @@ exports.watch = ->
   watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildMainScript
   watching ['src/scripts/register_sw.coffee'], buildSWRegistration
   watching ['src/workers/**/*.coffee', 'src/scripts/**/*.js'], buildWorkers
+  watching ['src/icons/icon.svg'], buildIcons
   watching ['src/manifest.yml'], buildManifest
 
   bs = BS.create()

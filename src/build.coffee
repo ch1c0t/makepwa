@@ -3,6 +3,7 @@
 { buildMainScript } = require './build/js/scripts/main'
 { buildSWRegistration } = require './build/js/scripts/register_sw'
 { buildWorkers } = require './build/js/workers'
+{ buildIcons } = require './build/icons'
 { buildPages } = require './build/pages'
 { buildStyles } = require './build/styles'
 { buildManifest } = require './build/manifest'
@@ -14,6 +15,7 @@ build = ->
     buildDeps()
     buildMainScript()
     buildSWRegistration()
+    buildIcons()
     buildStyles()
     buildManifest()
   ]
@@ -30,5 +32,6 @@ module.exports = {
   buildSWRegistration
   buildDeps
   buildWorkers
+  buildIcons
   buildManifest
 }
