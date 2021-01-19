@@ -1,7 +1,22 @@
+{ ensureDirExists } = require './util'
+
 exports.sw = (action) ->
   switch action
     when 'extract'
-      console.log 'Extracting the default SW'
+      ensureDirExists "#{SRC}/scripts"
+      ensureDirExists "#{SRC}/workers"
+
+      registrationScript = "#{SRC}/scripts/register_sw.coffee"
+      serviceWorker = "#{SRC}/workers/sw.coffee"
+
+      IO.copy '/tmp/makepwa/register_sw.coffee', registrationScript
+      IO.copy '/tmp/makepwa/sw.coffee', serviceWorker
+
+      console.log """
+        Extracted the default service worker and its registration script. You can modify them now at:
+        #{registrationScript}
+        #{serviceWorker}
+      """
     else
       console.error "Unknown action: #{action}"
       printHelp()
