@@ -1,12 +1,12 @@
 fs = require 'fs'
 YAML = require 'yaml'
 
-exports.createManifest = ({ name, src }) ->
-  icon192 =
-    src: '/icons/icon.192x192.png'
-    sizes: '192x192'
-    type: 'image/png'
+icon = (size) ->
+  src: "/icons/#{size}.png"
+  sizes: "#{size}x#{size}"
+  type: 'image/png'
 
+exports.createManifest = ({ name, src }) ->
   spec =
     name: name
     short_name: name
@@ -15,7 +15,8 @@ exports.createManifest = ({ name, src }) ->
     display: 'standalone'
     background_color: 'white'
     icons: [
-      icon192
+      icon 192
+      icon 512
     ]
 
   fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
