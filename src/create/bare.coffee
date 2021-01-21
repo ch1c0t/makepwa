@@ -79,10 +79,3 @@ createScripts = (src) ->
   fs.writeFileSync "#{dir}/main.coffee", """
     console.log 'from main'
   """
-
-createIcons = (src) ->
-  dir = "#{src}/icons"
-  fs.mkdirSync dir
-  
-  fs.copyFile "#{__dirname}/icon.192x192.png", "#{src}/icons/icon.192x192.png", (error) ->
-    throw error if error

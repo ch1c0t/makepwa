@@ -50,7 +50,6 @@ createSrc = ({ name, dir }) ->
     '/scripts/deps.js'
     '/scripts/deps.js.LICENSE.txt'
     '/scripts/main.js'
-    '/icons/icon.192x192.png'
   ]
 
 createPages = (src) ->
@@ -112,13 +111,6 @@ createScripts = (src) ->
 
     render App, (document.getElementById 'app')
   """
-
-createIcons = (src) ->
-  dir = "#{src}/icons"
-  fs.mkdirSync dir
-  
-  fs.copyFile "#{__dirname}/icon.192x192.png", "#{src}/icons/icon.192x192.png", (error) ->
-    throw error if error
 
 createDeps = (src) ->
   spec = """
