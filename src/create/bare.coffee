@@ -31,7 +31,6 @@ createSrc = ({ name, dir }) ->
   createPages src
   createStyles src
   createScripts src
-  createIcons src
   createManifest { name, src }
 
 createPages = (src) ->
