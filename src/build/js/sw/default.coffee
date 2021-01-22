@@ -12,8 +12,6 @@ exports.buildDefaultSW = ->
     .map (asset) -> asset.replace DIST, ''
     .filter (asset) -> asset isnt '/sw.js'
 
-  console.log assets
-
   createCoffeeFile [ '/', ...assets ]
   runWebpack entry: DEFAULT_SW, output: "#{DIST}/sw.js"
 

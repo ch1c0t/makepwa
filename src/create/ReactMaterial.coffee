@@ -1,7 +1,7 @@
 fs = require 'fs'
 { exec } = require 'child_process'
 
-{ createManifest } = require './common'
+{ createManifest, createGitignore } = require './common'
 
 exports.createProject = ({ name, dir }) ->
   spec =
@@ -22,6 +22,7 @@ exports.createProject = ({ name, dir }) ->
 
   createPackageFile { spec, dir }
   createSrc { name, dir }
+  createGitignore dir
 
   console.log "Running 'npm install'"
   exec 'npm install',

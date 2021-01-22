@@ -1,4 +1,3 @@
-fs = require 'fs'
 YAML = require 'yaml'
 
 icon = (size) ->
@@ -19,4 +18,11 @@ exports.createManifest = ({ name, src }) ->
       icon 512
     ]
 
-  fs.writeFileSync "#{src}/manifest.yml", (YAML.stringify spec)
+  IO.write "#{src}/manifest.yml", (YAML.stringify spec)
+
+exports.createGitignore = (dir) ->
+  IO.write "#{dir}/.gitignore", """
+    node_modules
+    dist.dev
+    dist
+  """
