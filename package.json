@@ -1,8 +1,18 @@
 {
   "name": "makepwa",
   "description": "A tool for making PWAs",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "bin": "./bin/makepwa",
+  "author": "Anatoly Chernov <chertoly@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ch1c0t/makepwa"
+  },
+  "keywords": [
+    "coffeescript",
+    "pwa"
+  ],
   "scripts": {
     "dev": "coffee --watch --compile --output lib src",
     "test": "coffee ./test/all.coffee"
