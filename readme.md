@@ -23,7 +23,7 @@ After entering the directory with `cd pwa0`, you can use `npm start` and `npm ru
 is for starting a development session. This command will:
 
 - create the `./dist.dev` directory with a distribution optimized for development;
-- watch for changes to the sources(at the `./src` directory) and update the distribution continuously;
+- watch for changes to the sources(in the `./src` directory) and update the distribution continuously;
 - run Browsersync at 3000 port on all available network interfaces;
 
 ## `npm run build`
@@ -34,7 +34,7 @@ is a one-off command which creates the `./dist` directory with a distribution op
 
 The default service worker implements a race between Cache and Network(it tries to get response from both and returns the earliest response). Also, if the request to Network was successful, Cache gets updated.
 
-This behavior would intervene with development(we would have to reload our browser twice to see every change). Because of this, by defaul, the service worker gets built only for production.
+This behavior would intervene with development(we would have to reload our browser twice to see every change). Because of this, by default, the service worker gets built only for production.
 
 If you would like to make it available during development(for example, to implement a different strategy), you can run `makepwa sw extract`. This will add `./src/workers/sw.coffee` and `./src/scripts/register_sw.coffee` to your project.
 
