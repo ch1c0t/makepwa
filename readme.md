@@ -1,4 +1,4 @@
-== Introduction
+## Introduction
 
 `makepwa` is a CLI tool for making PWAs. You can install it globally with
 
@@ -18,7 +18,7 @@ Optionally, you can also pass a TEMPLATE. For example, `makepwa new pwa0 ReactMa
 
 After entering the directory with `cd pwa0`, you can use `npm start` and `npm run build`.
 
-== `npm start`
+## `npm start`
 
 is for starting a development session. This command will:
 
@@ -26,11 +26,11 @@ is for starting a development session. This command will:
 - watch for changes to the sources(at the `./src` directory) and update the distribution continuously;
 - run Browsersync at 3000 port on all available network interfaces;
 
-== `npm run build`
+## `npm run build`
 
 is a one-off command which creates the `./dist` directory with a distribution optimized for production.
 
-== Service workers
+## Service workers
 
 The default service worker implements a race between Cache and Network(it tries to get response from both and returns the earliest response). Also, if the request to Network was successful, Cache gets updated.
 
@@ -38,6 +38,6 @@ This behavior would intervene with development(we would have to reload our brows
 
 If you would like to make it available during development(for example, to implement a different strategy), you can run `makepwa sw extract`. This will add `./src/workers/sw.coffee` and `./src/scripts/register_sw.coffee` to your project.
 
-== Icons
+## Icons
 
 If you add a square SVG icon to `./src/icons/icon.svg`, all the necessary icons will be generated from it. Otherwise, a default SVG icon will be used for that.
