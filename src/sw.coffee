@@ -27,5 +27,5 @@ printHelp = ->
     The actions related to service workers.
 
     ACTIONS:
-      extract             Extract the default servide worker for modification.
+      extract             Extract the default service worker for modification.
   """
