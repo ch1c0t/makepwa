@@ -12,6 +12,8 @@ exports.createProject = ({ name, dir }) ->
       build: 'makepwa build'
     devDependencies:
       makepwa: VERSION
+      coffeescript: "^2.5.1"
+      "coffee-loader": "^2.0.0"
 
   createPackageFile { spec, dir }
   createSrc { name, dir }
