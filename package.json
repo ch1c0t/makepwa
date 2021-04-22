@@ -1,7 +1,7 @@
 {
   "name": "makepwa",
   "description": "A tool for making PWAs",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "bin": "./bin/makepwa",
   "author": "Anatoly Chernov <chertoly@gmail.com>",
   "license": "ISC",
