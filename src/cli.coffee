@@ -29,6 +29,8 @@ exports.run = ->
     when 'sw'
       action = rest[0]
       sw action
+    when 'version'
+      console.log VERSION
     when 'help'
       printHelp()
     else
@@ -43,5 +45,6 @@ printHelp = ->
       build                  Build the project inside of the dist directory.
       watch                  Watch for changes and rebuild the project continuously.
       sw extract             Extract the default servide worker for modification.
+      version                Print the version.
       help                   Show this message.
   """
