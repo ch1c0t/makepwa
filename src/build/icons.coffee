@@ -28,6 +28,8 @@ createDefaultIcon = ->
   IO.write DEFAULT_ICON, (pug.render source)
 
 buildIconsFrom = (file) ->
+  IO.copy file, "#{DIST}/icons/icon.svg"
+
   sizes = [
     32
     180
