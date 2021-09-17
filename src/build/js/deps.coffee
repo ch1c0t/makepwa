@@ -27,7 +27,7 @@ exports.buildDeps = ->
         .map (dep) ->
           variable = makeVariable dep
           """
-          import #{variable} from '#{CWD}/node_modules/#{dep}'
+          import * as #{variable} from '#{CWD}/node_modules/#{dep}'
           _deps_['#{dep}'] = #{variable}
           """
         .join '\n'
