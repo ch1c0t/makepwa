@@ -1,10 +1,10 @@
 {
   "name": "makepwa",
   "description": "A tool for making PWAs",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "bin": "./bin/makepwa",
   "author": "Anatoly Chernov <chertoly@gmail.com>",
-  "license": "ISC",
+  "license": "BSD0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ch1c0t/makepwa"
