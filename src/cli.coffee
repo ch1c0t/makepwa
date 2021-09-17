@@ -3,7 +3,7 @@ global.VERSION = version
 global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 
-require './ext'
+require '@ch1c0t/io'
 
 { build } = require './build'
 { watch } = require './watch'
