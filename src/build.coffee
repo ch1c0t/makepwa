@@ -5,6 +5,7 @@
 { buildWorkers } = require './build/js/workers'
 { buildIcons } = require './build/icons'
 { buildPages } = require './build/pages'
+{ buildFonts } = require './build/fonts'
 { buildStyles } = require './build/styles'
 { buildManifest } = require './build/manifest'
 
@@ -17,6 +18,7 @@ build = ->
     buildMainScript()
     buildSWRegistration()
     buildIcons()
+    buildFonts()
     buildStyles()
     buildManifest()
   ]
@@ -28,6 +30,7 @@ build = ->
 module.exports = {
   build
   buildPages
+  buildFonts
   buildStyles
   buildMainScript
   buildSWRegistration

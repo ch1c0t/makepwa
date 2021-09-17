@@ -4,6 +4,7 @@ BS = require 'browser-sync'
 {
   build
   buildPages
+  buildFonts
   buildStyles
   buildDeps
   buildMainScript
@@ -17,6 +18,7 @@ exports.watch = ->
   build()
 
   watching ['src/pages/*.pug'], buildPages
+  watching ['src/fonts/*'], buildFonts
   watching ['src/styles/**/*.sass'], buildStyles
   watching ['src/deps.yml'], buildDeps
   watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildMainScript
