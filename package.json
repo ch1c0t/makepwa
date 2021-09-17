@@ -14,7 +14,7 @@
     "pwa"
   ],
   "scripts": {
-    "dev": "coffee --watch --compile --output lib src",
+    "start": "coffee --watch --compile --output lib src",
     "test": "coffee ./test/all.coffee"
   },
   "dependencies": {

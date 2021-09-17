@@ -17,7 +17,7 @@ exports.watch = ->
   build()
 
   watching ['src/pages/*.pug'], buildPages
-  watching ['src/styles/*.sass'], buildStyles
+  watching ['src/styles/**/*.sass'], buildStyles
   watching ['src/deps.yml'], buildDeps
   watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildMainScript
   watching ['src/scripts/register_sw.coffee'], buildSWRegistration
