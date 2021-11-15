@@ -1,11 +1,21 @@
 { failIfDirNotExists, ensureDirExists } = require '../../../util'
-{ runWebpack } = require '../common'
+{ Pathflow } = require 'pathflow'
+{ bundle } = require '../common'
 
 exports.buildMainScript = ->
   sourceDir = "#{SRC}/scripts"
   failIfDirNotExists sourceDir
 
+  tmpDir = '/tmp/makepwa/scripts'
+  Pathflow
+    source: sourceDir
+    target: tmpDir
+    oneoff: yes
+    log: yes
+
   targetDir = "#{DIST}/scripts"
   ensureDirExists targetDir
 
-  runWebpack entry: "#{sourceDir}/main.coffee", output: "#{targetDir}/main.js"
+  bundle
+    entry: "#{tmpDir}/main.js"
+    output: "#{targetDir}/main.js"

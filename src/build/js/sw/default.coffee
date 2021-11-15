@@ -1,10 +1,9 @@
-fs = require 'fs'
-
 glob = require 'glob'
 
-{ runWebpack } = require '../common'
+{ bundle } = require '../common'
+{ compile } = require 'coffeescript'
 
-DEFAULT_SW = '/tmp/makepwa/sw.coffee'
+DEFAULT_SW = '/tmp/makepwa/sw.js'
 
 exports.buildDefaultSW = ->
   paths = glob.sync "#{DIST}/**/*", nodir: yes
@@ -12,8 +11,8 @@ exports.buildDefaultSW = ->
     .map (asset) -> asset.replace DIST, ''
     .filter (asset) -> asset isnt '/sw.js'
 
-  createCoffeeFile [ '/', ...assets ]
-  runWebpack entry: DEFAULT_SW, output: "#{DIST}/sw.js"
+  CreateEntryFile [ '/', ...assets ]
+  bundle entry: DEFAULT_SW, output: "#{DIST}/sw.js"
 
 prepareAssetsString = (assets) ->
   lines = assets
@@ -22,8 +21,8 @@ prepareAssetsString = (assets) ->
     .join '\n'
   "[\n#{lines}\n]"
 
-createCoffeeFile = (assets) ->
-  fs.writeFileSync DEFAULT_SW, """
+CreateEntryFile = (assets) ->
+  js = compile """
     VERSION = '0'
     CACHE_NAME = "assets-" + VERSION
     CACHE = caches.open CACHE_NAME
@@ -75,3 +74,5 @@ createCoffeeFile = (assets) ->
       networkResponse = revalidate request
       event.respondWith Promise.any [cacheResponse, networkResponse]
   """
+
+  await IO.write DEFAULT_SW, js

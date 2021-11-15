@@ -5,7 +5,7 @@ YAML = require 'yaml'
 coffee = require 'coffeescript'
 
 { ensureDirExists } = require '../../util'
-{ runWebpack } = require './common'
+{ bundle } = require './common'
 
 exports.buildDeps = ->
   file = "#{SRC}/deps.yml"
@@ -77,4 +77,4 @@ exports.buildDeps = ->
     ensureDirExists targetDir
 
     entry = generateWebpackEntry spec
-    runWebpack { entry, output: "#{targetDir}/deps.js" }
+    bundle { entry, output: "#{targetDir}/deps.js" }

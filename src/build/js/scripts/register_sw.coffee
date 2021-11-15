@@ -1,7 +1,8 @@
-fs = require 'fs'
-
 { ensureDirExists } = require '../../../util'
-{ runWebpack } = require '../common'
+{ bundle } = require '../common'
+{ compile } = require 'coffeescript'
+
+REGISTER_FILE = '/tmp/makepwa/register_sw.js'
 
 exports.buildSWRegistration = (config) ->
   targetDir = "#{DIST}/scripts"
@@ -10,15 +11,15 @@ exports.buildSWRegistration = (config) ->
   file = "#{SRC}/scripts/register_sw.coffee"
   output = "#{targetDir}/register_sw.js"
 
-  if fs.existsSync file
-    runWebpack { entry: file, output }
+  if IO.exist file
+    await IO.write REGISTER_FILE, (compile file)
+    bundle { entry: REGISTER_FILE, output }
   else
     if COMMAND is 'build'
       buildDefaultSWRegistration { output }
 
 buildDefaultSWRegistration = (config) ->
-  defaultFile = '/tmp/makepwa/register_sw.coffee'
-  await IO.write defaultFile, """
+  js = compile """
     if navigator.serviceWorker?.register
       window.addEventListener 'load', ->
         navigator.serviceWorker.register('/sw.js')
@@ -30,6 +31,7 @@ buildDefaultSWRegistration = (config) ->
       console.log "No 'serviceWorker' in the navigator."
       console.dir navigator
   """
+  await IO.write REGISTER_FILE, js
 
-  config.entry = defaultFile
-  runWebpack config
+  config.entry = REGISTER_FILE
+  bundle config
