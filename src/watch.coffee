@@ -17,7 +17,7 @@ BS = require 'browser-sync'
 exports.watch = ->
   build()
 
-  watching ['src/pages/*.pug'], buildPages
+  watching ['src/pages/*.html'], buildPages
   watching ['src/fonts/*'], buildFonts
   watching ['src/styles/**/*.sass'], buildStyles
   watching ['src/deps.yml'], buildDeps

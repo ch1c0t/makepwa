@@ -1,6 +1,6 @@
 { build } = require 'esbuild'
 
-bundle = ({ entry, output }) ->
+exports.bundle = ({ entry, output }) ->
   params =
     entryPoints: [entry]
     outfile: output

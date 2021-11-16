@@ -1,6 +1,4 @@
-fs = require 'fs'
 { exec } = require 'child_process'
-
 { createManifest, createGitignore } = require './common'
 
 exports.createProject = ({ name, dir }) ->
@@ -11,9 +9,8 @@ exports.createProject = ({ name, dir }) ->
       start: 'makepwa watch'
       build: 'makepwa build'
     devDependencies:
-      makepwa: VERSION
-      coffeescript: "^2.5.1"
-      "coffee-loader": "^2.0.0"
+      makepwa: "file:~/sources/coffee/makepwa"
+      #makepwa: VERSION
 
   createPackageFile { spec, dir }
   createSrc { name, dir }
@@ -25,11 +22,11 @@ exports.createProject = ({ name, dir }) ->
 
 createPackageFile = ({ spec, dir }) ->
   source = JSON.stringify spec, null, 2
-  fs.writeFileSync "#{dir}/package.json", source
+  IO.write "#{dir}/package.json", source
 
 createSrc = ({ name, dir }) ->
   src = "#{dir}/src"
-  fs.mkdirSync src
+  await IO.mkdir src
 
   createPages src
   createStyles src
@@ -38,46 +35,45 @@ createSrc = ({ name, dir }) ->
 
 createPages = (src) ->
   dir = "#{src}/pages"
-  fs.mkdirSync dir
+  await IO.mkdir dir
 
   source = """
-    doctype html
-    html
-      head
-        title Title
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        meta(charset="utf-8")
-        meta(http-equiv="x-ua-compatible" content="ie=edge")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
-
-        link(rel="icon" type="image/svg+xml" href="/icons/icon.svg")
-        link(rel="alternate icon" href="/favicon.ico")
-        link(rel="apple-touch-icon" href="/icons/180.png")
-
-        link(rel="manifest" href="/manifest.webmanifest")
-
-        link(rel="stylesheet" href="/styles/main.css")
-      body
-        #app
+      <title>Title</title>
+      <link rel="stylesheet" href="/styles/main.css">
+      <link rel="manifest" href="/manifest.webmanifest">
+      <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+      <link rel="alternate icon" href="/favicon.ico">
+      <link rel="apple-touch-icon" href="/icons/180.png">
+    </head>
+    <body>
+    </body>
+    </html>
   """
 
-  fs.writeFileSync "#{dir}/index.pug", source
+  IO.write "#{dir}/index.html", source
 
 createStyles = (src) ->
   dir = "#{src}/styles"
-  fs.mkdirSync dir
+  await IO.mkdir dir
 
   source = """
     body
       background-color: white
   """
 
-  fs.writeFileSync "#{dir}/main.sass", source
+  IO.write "#{dir}/main.sass", source
 
 createScripts = (src) ->
   dir = "#{src}/scripts"
-  fs.mkdirSync dir
+  await IO.mkdir dir
 
-  fs.writeFileSync "#{dir}/main.coffee", """
+  IO.write "#{dir}/main.coffee", """
     console.log 'from main'
   """

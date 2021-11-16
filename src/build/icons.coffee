@@ -1,8 +1,4 @@
-fs = require 'fs'
-
-pug = require 'pug'
 sharp = require 'sharp'
-
 { ensureDirExists } = require '../util'
 
 DEFAULT_ICON = '/tmp/makepwa/icon.svg'
@@ -12,7 +8,7 @@ exports.buildIcons = ->
 
   file = "#{SRC}/icons/icon.svg"
 
-  if fs.existsSync file
+  if IO.exist file
     buildIconsFrom file
   else
     await createDefaultIcon()
@@ -20,12 +16,13 @@ exports.buildIcons = ->
 
 createDefaultIcon = ->
   source = """
-    svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512")
-      rect(width="100%" height="100%" fill="#f0f0f0")
-      circle(cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red")
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <rect width="100%" height="100%" fill="#f0f0f0" />
+      <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="orange" />
+    </svg>
   """
 
-  IO.write DEFAULT_ICON, (pug.render source)
+  IO.write DEFAULT_ICON, source
 
 buildIconsFrom = (file) ->
   IO.copy file, "#{DIST}/icons/icon.svg"
