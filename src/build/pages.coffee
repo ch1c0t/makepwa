@@ -1,5 +1,5 @@
 glob = require 'glob'
-{ inject } = require 'node-inject-html'
+{ injectHTML } = require 'node-inject-html'
 { basename } = require 'path'
 { failIfDirNotExists } = require '../util'
 
@@ -23,4 +23,4 @@ injectScriptTags = (html) ->
       "<script src=#{path}></script>"
     .join '\n'
 
-  inject html, bodyEnd: scripts
+  injectHTML html, bodyEnd: scripts

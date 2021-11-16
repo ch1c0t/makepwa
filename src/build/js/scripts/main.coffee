@@ -7,11 +7,12 @@ exports.buildMainScript = ->
   failIfDirNotExists sourceDir
 
   tmpDir = '/tmp/makepwa/scripts'
-  Pathflow
+  pathflow = Pathflow
     source: sourceDir
     target: tmpDir
     oneoff: yes
     log: yes
+  await pathflow 'oneoff'
 
   targetDir = "#{DIST}/scripts"
   ensureDirExists targetDir

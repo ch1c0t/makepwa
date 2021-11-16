@@ -1,4 +1,4 @@
-{ build } = require 'esbuild'
+{ buildSync } = require 'esbuild'
 
 exports.bundle = ({ entry, output }) ->
   params =
@@ -12,4 +12,4 @@ exports.bundle = ({ entry, output }) ->
     when 'watch'
       params.sourcemap = yes
 
-  build params
+  buildSync params
