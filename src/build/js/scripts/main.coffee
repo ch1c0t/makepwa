@@ -12,7 +12,7 @@ exports.buildMainScript = ->
     target: tmpDir
     oneoff: yes
     log: yes
-  await pathflow 'oneoff'
+  await pathflow 'once'
 
   targetDir = "#{DIST}/scripts"
   ensureDirExists targetDir
