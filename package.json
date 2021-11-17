@@ -20,7 +20,7 @@
   "dependencies": {
     "@ch1c0t/io": "^0.0.3",
     "@ch1c0t/sh": "^0.0.1",
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^2.27.7",
     "chokidar": "^3.4.3",
     "coffeescript": "^2.5.1",
     "esbuild": "^0.13.13",
