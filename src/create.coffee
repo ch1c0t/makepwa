@@ -2,7 +2,6 @@ fs = require 'fs'
 
 TEMPLATES = [
   'bare'
-  'ReactMaterial'
   'tags'
 ]
 
