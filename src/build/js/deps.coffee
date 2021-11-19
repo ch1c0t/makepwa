@@ -14,7 +14,7 @@ exports.buildDeps = ->
     
     generateWebpackEntry = (spec) ->
       ensureDirExists '/tmp/makepwa'
-      entry = '/tmp/makepwa/deps.js'
+      entry = "#{CWD}/esbuild/deps.js"
 
       makeVariable = (string) ->
         string

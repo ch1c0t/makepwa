@@ -6,7 +6,7 @@ exports.buildMainScript = ->
   sourceDir = "#{SRC}/scripts"
   failIfDirNotExists sourceDir
 
-  tmpDir = '/tmp/makepwa/scripts'
+  tmpDir = "#{CWD}/esbuild"
   pathflow = Pathflow
     source: sourceDir
     target: tmpDir

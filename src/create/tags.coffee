@@ -44,7 +44,7 @@ createScripts = (src) ->
 
     { div } = TAGS
 
-    document.body [
+    document.body.render [
       div 'first'
       div 'second'
     ]

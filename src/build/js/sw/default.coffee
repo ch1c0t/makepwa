@@ -3,7 +3,7 @@ glob = require 'glob'
 { bundle } = require '../common'
 { compile } = require 'coffeescript'
 
-DEFAULT_SW = '/tmp/makepwa/sw.js'
+DEFAULT_SW = "#{CWD}/esbuild/sw.js"
 
 exports.buildDefaultSW = ->
   paths = glob.sync "#{DIST}/**/*", nodir: yes

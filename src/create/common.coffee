@@ -16,6 +16,7 @@ exports.createGitignore = (dir) ->
     node_modules
     dist.dev
     dist
+    esbuild
   """
 
 exports.createPages = (src) ->

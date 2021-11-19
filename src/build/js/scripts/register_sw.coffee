@@ -2,7 +2,7 @@
 { bundle } = require '../common'
 { compile } = require 'coffeescript'
 
-REGISTER_FILE = '/tmp/makepwa/register_sw.js'
+REGISTER_FILE = "#{CWD}/esbuild/register_sw.js"
 
 exports.buildSWRegistration = (config) ->
   targetDir = "#{DIST}/scripts"

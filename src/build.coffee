@@ -12,6 +12,7 @@
 build = ->
   ensureDirExists DIST
   ensureDirExists '/tmp/makepwa'
+  ensureDirExists "#{CWD}/esbuild"
 
   await Promise.all [
     buildDeps()
