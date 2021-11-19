@@ -1,6 +1,6 @@
 ## Introduction
 
-`makepwa` is a CLI tool for making PWAs. You can install it globally with
+`makepwa` is a CLI tool to make PWAs. You can install it globally with
 
 ```
 npm install makepwa -g
