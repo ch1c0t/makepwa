@@ -9,8 +9,7 @@ exports.createProject = ({ name, dir }) ->
       start: 'makepwa watch'
       build: 'makepwa build'
     devDependencies:
-      makepwa: "file:~/sources/coffee/makepwa"
-      #makepwa: VERSION
+      makepwa: VERSION
 
   createPackageFile { spec, dir }
   createSrc { name, dir }
