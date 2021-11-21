@@ -20,12 +20,13 @@ exports.watch = ->
   watching ['src/pages/*.html'], buildPages
   watching ['src/fonts/*'], buildFonts
   watching ['src/styles/**/*.sass'], buildStyles
-  watching ['src/deps.yml'], buildDeps
-  watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], buildMainScript
   watching ['src/scripts/register_sw.coffee'], buildSWRegistration
   watching ['src/workers/**/*.coffee', 'src/scripts/**/*.js'], buildWorkers
   watching ['src/icons/icon.svg'], buildIcons
   watching ['src/manifest.yml'], buildManifest
+  watching ['src/scripts/**/*.coffee', 'src/scripts/**/*.js'], ->
+    buildDeps()
+    buildMainScript()
 
   bs = BS.create()
   bs.init
