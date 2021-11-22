@@ -21,6 +21,6 @@ injectScriptTags = (html) ->
       name = basename script
       path = '"' + "/scripts/#{name}" + '"'
       "<script src=#{path}></script>"
-    .join '\n'
+    .join '\n  '
 
   injectHTML html, bodyEnd: scripts
