@@ -1,7 +1,7 @@
 { compile } = require 'coffeescript'
 
 exports.CreateEntryFile = ({ imports, origins, entry }) ->
-  origins = origins.map (origin) ->
+  origins = origins.toSet().map (origin) ->
     "_deps_['#{origin}'] = {}"
 
   source = """

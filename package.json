@@ -18,6 +18,7 @@
     "test": "coffee ./test/all.coffee"
   },
   "dependencies": {
+    "@ch1c0t/ext": "^0.0.3",
     "@ch1c0t/io": "^0.0.3",
     "@ch1c0t/sh": "^0.0.1",
     "browser-sync": "^2.27.7",

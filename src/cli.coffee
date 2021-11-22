@@ -4,6 +4,7 @@ global.CWD = process.cwd()
 global.SRC = "#{CWD}/src"
 
 require '@ch1c0t/io'
+require '@ch1c0t/ext'
 
 { build } = require './build'
 { watch } = require './watch'
