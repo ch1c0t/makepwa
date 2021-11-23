@@ -3,7 +3,6 @@
 { BundleDeps } = require './create/BundleDeps'
 
 exports.CreateDeps = (deps) ->
-  p deps
   entry = "#{CWD}/esbuild/deps.js"
   origins = deps.map (dep) -> dep.origin
   imports = deps.map PrepareImport
