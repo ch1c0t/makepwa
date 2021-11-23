@@ -43,3 +43,52 @@ If you would like to make it available during development(for example, to implem
 ## Icons
 
 If you add a square SVG icon to `./src/icons/icon.svg`, all the necessary icons will be generated from it. Otherwise, a default SVG icon will be used for that.
+
+## Bundle splitting
+
+By default, if you import as usual
+
+```coffee
+import 'web.tags'
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera.js'
+import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer.js'
+import { Scene } from 'three/src/scenes/Scene.js'
+import { MeshNormalMaterial } from 'three/src/materials/MeshNormalMaterial.js'
+import { BoxGeometry } from 'three/src/geometries/BoxGeometry.js'
+import { Mesh } from 'three/src/objects/Mesh.js'
+```
+
+, it will bundle everything into one file(`scripts/main.js`).
+
+To split dependencies(`scripts/deps.js`) and application code(`scripts/main.js`),
+you can use `window.FROM`:
+
+```coffee
+FROM 'web.tags'
+{
+  PerspectiveCamera
+  WebGLRenderer
+  Scene
+  MeshNormalMaterial
+  BoxGeometry
+  Mesh
+} = FROM 'three/src'
+```
+
+This will bundle to `scripts/deps.js` only necessary files from [three/src][three/src].
+
+[three/src]: https://github.com/mrdoob/three.js/tree/dev/src
+
+### `window.FROM`
+
+takes a String literal. It can be:
+
+- a package name;
+  For example: `{ Scene } = FROM 'three'`
+  This will bundle the entire package.
+- a path to a file;
+  For example: `{ Scene } = FROM 'three/src/scenes/Scene.js'`
+- a path to a directory;
+  For example: `{ Scene } = FROM 'three/src'`
+  This will guess in which file `Scene` might be and bundle
+  only this specific file.
