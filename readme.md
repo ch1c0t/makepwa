@@ -84,12 +84,15 @@ This will bundle to `scripts/deps.js` only necessary files from [three/src][thre
 takes a String literal. It can be:
 
 - a package name;
+
     For example: `{ Scene } = FROM 'three'`
 
     This will bundle the entire package.
 - a path to a file;
+
     For example: `{ Scene } = FROM 'three/src/scenes/Scene.js'`
 - a path to a directory;
+
     For example: `{ Scene } = FROM 'three/src'`
 
     This will guess in which file `Scene` might be and bundle
