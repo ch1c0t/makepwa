@@ -1,11 +1,14 @@
 exports.PrepareImport = (dep) ->
-  if dep.origin.includes '/'
-    if dep.origin.endsWith '.js'
-      PrepareImportString dep
+  if dep.name?
+    if dep.origin.includes '/'
+      if dep.origin.endsWith '.js'
+        PrepareImportString dep
+      else
+        PrepareDirectoryImport dep
     else
-      PrepareDirectoryImport dep
+      PrepareImportString dep
   else
-    PrepareImportString dep
+    "import '#{dep.origin}'"
 
 PrepareDirectoryImport = ({ origin, name, all }) ->
   file = FindFileFor { name, directory: origin }
