@@ -1,18 +1,13 @@
 glob = require 'glob'
 
-{ bundle } = require '../common'
-{ compile } = require 'coffeescript'
-
-DEFAULT_SW = "#{CWD}/esbuild/sw.js"
-
 exports.buildDefaultSW = ->
   paths = glob.sync "#{DIST}/**/*", nodir: yes
   assets = paths
     .map (asset) -> asset.replace DIST, ''
     .filter (asset) -> asset isnt '/sw.js'
 
-  CreateEntryFile [ '/', ...assets ]
-  bundle entry: DEFAULT_SW, output: "#{DIST}/sw.js"
+  source = CreateSource [ '/', ...assets ]
+  await IO.write "#{DIST}/sw.js", source
 
 prepareAssetsString = (assets) ->
   lines = assets
@@ -21,8 +16,9 @@ prepareAssetsString = (assets) ->
     .join '\n'
   "[\n#{lines}\n]"
 
-CreateEntryFile = (assets) ->
-  js = compile """
+{ compile } = require 'coffeescript'
+CreateSource = (assets) ->
+  compile """
     VERSION = '0'
     CACHE_NAME = "assets-" + VERSION
     CACHE = caches.open CACHE_NAME
@@ -74,5 +70,3 @@ CreateEntryFile = (assets) ->
       networkResponse = revalidate request
       event.respondWith Promise.any [cacheResponse, networkResponse]
   """
-
-  await IO.write DEFAULT_SW, js

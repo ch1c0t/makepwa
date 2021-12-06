@@ -1,4 +1,3 @@
-{ bundle } = require './common'
 { compile } = require 'coffeescript'
 { buildDefaultSW } = require './sw/default'
 
@@ -12,5 +11,5 @@ exports.buildWorkers = ->
       buildDefaultSW()
 
 buildCustomSW = (file) ->
-  await IO.write DEFAULT_SW, (compile file)
-  bundle entry: DEFAULT_SW, output: "#{DIST}/sw.js"
+  await source = await IO.read file
+  await IO.write "#{DIST}/sw.js", (compile source)
